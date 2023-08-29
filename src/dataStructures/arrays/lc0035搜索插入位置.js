@@ -16,6 +16,7 @@
  * @return {number}
  */
 var searchInsert = function(nums, target) {
+    // left 指向插入的位置
     let left = 0, right = nums.length - 1;
     while (left <= right) {
         let mid =  Math.floor((left+right)/2)
