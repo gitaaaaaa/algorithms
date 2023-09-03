@@ -1,20 +1,32 @@
-# 排序算法（Sorting Algorithms）
+[toc]
+
+# 算法基础
+
+```txt
+💡 算法学习的核心内容
+```
+
+## 排序算法（Sorting Algorithms）
 
 快速排序
 
-# 搜索算法（Searching Algorithms）
+## 搜索算法（Searching Algorithms）
 
-# 递归与分治法（Recursion and Divide and Conquer）
+## 递归与分治法（Recursion and Divide and Conquer）
 
-# 动态规划（Dynamic Programming，简称 DP）
+## 贪心算法（Greedy Algorithms）
+
+- 局部最优解
+
+## 动态规划（Dynamic Programming，简称 DP）
 
 - 最优化
   - 重叠子问题
   - 最优子结构
 
-## 经典应用场景
+### 经典应用场景
 
-### 斐波那契数列
+#### 斐波那契数列
 
 - 方法一： 递归
 时间复杂度： O(2^n)
@@ -58,8 +70,20 @@ function fibo(num) {
   ).toFixed();
 }
 
-### 背包问题
+#### 背包问题
 
-# 贪心算法（Greedy Algorithms）
+## 回溯算法（Backtracking）
 
-- 局部最优解
+## 字符串匹配算法（String Matching Algorithms）
+
+# 算法高阶
+
+```txt
+💡 算法常用的技巧
+```
+
+## 滑动窗口
+
+- 通常用于解决与连续子序列相关的问题
+
+## 前缀和

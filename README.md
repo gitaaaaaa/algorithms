@@ -1,4 +1,6 @@
-# 学习 JavaScript 数据结构与算法 (Learning JavaScript DataStructures and Algorithms)
+# 学习 JavaScript 数据结构与算法
+
+Learning JavaScript DataStructures and Algorithms
 
 # 数据结构
 
@@ -28,8 +30,7 @@ Jest 自动化测试
 NPM
 GIT
 
-    <!-- "test": "echo \"Error: no test specified\" && exit 1", -->
-
+<!-- "test": "echo \"Error: no test specified\" && exit 1", -->
 require("@babel/core").transform("code", {
   presets: ["@babel/preset-env"],
 });
