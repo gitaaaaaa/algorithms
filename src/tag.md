@@ -14,6 +14,10 @@
 [lc0056合并间隔](./dataStructures/arrays/lc0056合并间隔.js)  <code>数组</code> <code>排序</code>
 [lc0724寻找数组的中心索引](./dataStructures/arrays/lc0724寻找数组的中心索引.js)  <code>数组</code> <code>前缀和</code>
 
+### 链表（1）
+
+[lc0206反转链表](./dataStructures/arrays/lc0206反转链表.js)  <code>链表</code> <code>递归</code>
+
 ### 最短路径
 
 ### 关键路径
@@ -46,3 +50,7 @@
 ### 前缀和（1）
 
 [lc0724寻找数组的中心索引](./dataStructures/arrays/lc0724寻找数组的中心索引.js)  <code>数组</code> <code>前缀和</code>
+
+### 递归（1）
+
+[lc0206反转链表](./dataStructures/arrays/lc0206反转链表.js)  <code>链表</code> <code>递归</code>
