@@ -26,17 +26,10 @@
 
 const reverseList = require('../../../src/dataStructures/linked-list/lc0206反转链表');
 
-// class ListNode {
-//     constructor(val) {
-//         this.val = val;
-//         this.next = null;
-//     }
-// }
-
 function ListNode(val, next) {
          this.val = (val===undefined ? 0 : val)
          this.next = (next===undefined ? null : next)
-     }
+}
 
 describe('反转链表', function () {
   test('示例一', () => {
