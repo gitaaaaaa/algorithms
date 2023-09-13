@@ -52,34 +52,34 @@ var binaryTreePaths = function(root) {
 };
 
 // 方法二：广度优先搜索 队列**先入[push]先出[unshift]**
-// var binaryTreePaths = function(root) {
-//     const paths = [];
-//     if (root === null) {
-//         return paths;
-//     }
-//     const node_queue = [root];
-//     const path_queue = [root.val.toString()];
+var binaryTreePaths = function(root) {
+    const paths = [];
+    if (root === null) {
+        return paths;
+    }
+    const node_queue = [root];
+    const path_queue = [root.val.toString()];
 
-//     while (node_queue.length) {
-//         const node = node_queue.shift(); 
-//         const path = path_queue.shift();
+    while (node_queue.length) {
+        const node = node_queue.shift(); 
+        const path = path_queue.shift();
 
-//         if (node.left === null && node.right === null) {
-//             paths.push(path);
-//         } else {
-//             if (node.left !== null) {
-//                 node_queue.push(node.left);
-//                 path_queue.push(path + "->" + node.left.val.toString());
-//             }
+        if (node.left === null && node.right === null) {
+            paths.push(path);
+        } else {
+            if (node.left !== null) {
+                node_queue.push(node.left);
+                path_queue.push(path + "->" + node.left.val.toString());
+            }
 
-//             if (node.right !== null) {
-//                 node_queue.push(node.right);
-//                 path_queue.push(path + "->" + node.right.val.toString());
-//             }
-//         }
-//     }
-//     return paths;
-// };
+            if (node.right !== null) {
+                node_queue.push(node.right);
+                path_queue.push(path + "->" + node.right.val.toString());
+            }
+        }
+    }
+    return paths;
+};
 
 
 module.exports = binaryTreePaths
