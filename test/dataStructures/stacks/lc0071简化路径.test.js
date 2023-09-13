@@ -44,7 +44,7 @@
  * path 是一个有效的 Unix 风格绝对路径。
  * */ 
 
-const simplifyPath = require('../../../src/dataStructures/string/lc0071简化路径')
+const simplifyPath = require('../../../src/dataStructures/stacks/lc0071简化路径')
 describe('反转字符串中的单词 II', () => {
     test('示例一', () => {
         const path = "/home/"
