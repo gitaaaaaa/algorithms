@@ -1,5 +1,10 @@
 /**
- * 题目 静态扫描最优成本
+ * 题目0194-静态代码扫描服务
+ * https://wiki.amoscloud.com/zh/ProgramingPractice/NowCoder/Adecco/Topic0194
+ * 
+ * 相关标签： 数组 哈希表 动态规划
+ * 
+ * 题目描述：
  * 静态扫描快速识别源代码的缺陷，静态扫描的结果以扫描报告作为输出：
  * 1. 文件扫描的成本和文件大小相关，如果文件大小为 n，则扫描成本为 n 个金币
  * 2. 扫描报告的缓存成本和文件大小无关，每缓存一个报告需要 m 个金币
@@ -14,144 +19,133 @@
  * 
  * 输出描述
  * 采用合理的缓存策略，需要的最少金币数
+ * 
+ * 示例一
+ * 输入：
+ * 5
+ * 1 2 2 1 2 3 4
+ * 1 1 1 1 1 1 1
+ * 输出：
+ * 7
+ * 说明
+ * 文件大小相同，扫描成本均为1个金币。缓存任意文件均不合算，因而最少成本为7金币
+ * 
+ * 示例二
+ * 输入：
+ * 5
+ * 2 2 2 2 2 5 2 2 2
+ * 3 3 3 3 3 1 3 3 3
+ * 输出：
+ * 9
+ * 说明
+ * 2号文件出现了8次，扫描加缓存成本共计3+5=8，不缓存成本为3*8=24，显然缓存更优，最优成本为8+1=9。
  * */
+const readline = require('readline')
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+})
 
-/**
- * 相关标签
- * 数组 动态规划
- * */
-
-function minCost(m, fIds, fSizes) {
-     // 初始化数据
-    let files = fIds.trim().split(' ').map(Number);
-    let sizes = fSizes.trim().split(' ').map(Number);
-    
-
-    let cost = 0;
-    let cache = new Set();
-    let fileCount = {};
-    for (let i = 0; i < files.length; i++) {
-        if (fileCount[files[i]] === undefined) {
-            fileCount[files[i]] = 0;
-        }
-        fileCount[files[i]]++;
+let lines = []
+rl.on('line',function(line) {
+    lines.push(line)
+    if(lines.length === 3) {
+        minimumCoins(lines);
+        rl.close()
     }
-    for (let i = 0; i < files.length; i++) {
-        if (!cache.has(files[i])) {
-            cost += sizes[i];
-            if (sizes[i] * fileCount[files[i]] > m) {
-                cache.add(files[i]);
-                cost += m;
+})
+
+// 方法三：动态规划 + 哈希表
+function minimumCoins(line) {
+    const m = Number(line[0]); // 缓存一个报告金币数
+    const files = line[1].trim().split(' ').map(Number); // 文件标识序列
+    const sizes = line[2].trim().split(' ').map(Number); // 文件大小序列（扫描成本）
+    const len = files.length;
+    
+    let hashMap = new Map(); // 存储文件的数量
+    // len + 1 是因为我们需要考虑处理前 0 个文件的情况，dp[0] 的初始值为 0 
+    const dp = new Array(len+1);
+    for(let j =0;j<len+1;j++) {
+        dp[j] = [0,0]
+    }
+    for(let i = 1; i <= len;i++) {
+        dp[i][0] = dp[i-1][0] + sizes[i-1]
+        if(hashMap.has(files[i-1])) {
+            const fileNum = hashMap.get(files[i-1])
+            if(fileNum === 1) {
+                // 再判断数量
+                dp[i][1] = dp[i-1][1] + m
+                hashMap.set(files[i-1], 2)
+            } else {
+                dp[i][1] = dp[i-1][1]
             }
+        } else {
+            hashMap.set(files[i-1], 1)
+            dp[i][1] = dp[i-1][1] + sizes[i-1]
         }
     }
-    return cost;
-
-    // console.log('m----', m)
-    // console.log('files----', files)
-    // console.log('sizes----', sizes)
-
-    // let n = files.length;
-   
-    
-    // // 表示处理前 i 个文件所需的最少金币数
-    // // n + 1 是因为我们需要考虑处理前 0 个文件的情况, dp[0] 的初始值为 0 
-    // let dp = new Array(n + 1).fill(0); 
-    // let map = new Map() // 存储files key 及 key 对应的 累计cost value
-    // for(let i = 1; i<=n;i++) {
-    //     dp[i] = dp [i - 1] + sizes [i - 1] // 前i个文件所需要最少得金币
-    //     console.log('for - dp', dp)
-    //     if(map.has(files[i-1])) {
-    //         let j = map.get(files[i - 1]) // 上一个子级的最优解
-    //         dp[i] = Math.min(dp[i], dp[j] + m)
-    //     } else {
-    //         map.set(files[i-1], i)
-    //     }
-    //     console.log('for - map', map)
-    // }
-    // console.log('map---',map)
-    // console.log('dp---',dp)
-    // return dp[n]
+    return Math.min(dp[len][0],dp[len][1])
 }
 
-module.exports = minCost
 
-
-
-// 示例一
-// 输入
-// 5 -> 缓存成本
-// 1 2 2 1 2 3 4 - > 原文件标识序列
-// 1 1 1 1 1 1 1 -> 文件大小
-// 输出
-// 7
-// 说明
-// 文件大小相同，扫描成本均为1个金币。缓存任意文件均不合算，因而最少成本为7金币
-
-// 示例二
-// 入参输入
-// 5
-// 2 2 2 2 2 5 2 2 2
-// 3 3 3 3 3 1 3 3 3
-// 出参输出
-// 9
-// 说明
-// 2号文件出现了8次，扫描加缓存成本共计3+5=8，不缓存成本为3*8=24，显然缓存更优，最优成本为8+1=9。
-
-// const readline = require('readline');
-// const rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout
-// });
-
-// let m = 0; // 缓存一个报告金币数
-// let fileIds = []; // 文件标识序列
-// let fileSizes = []; // 文件大小序列
-// let catchMap = {}; // 存储缓存的扫描报告
-
-// rl.on('line', function (line) {
-//     const input = line.trim().split(' ').map(Number);
-//     if (m === 0) {
-//         m = input[0];
-//     } else if (fileIds.length === 0) {
-//         fileIds = input;
-//     } else if (fileSizes.length === 0) {
-//         fileSizes = input;
-//         console.log(minimumCoins(m, fileIds, fileSizes));
-//         rl.close();
-//     }
-// })
-
-// function minimumCoins(m, fileIds, fileSizes) {
-//     let totalCost = 0; // 存储已经缓存的扫描报告的缓存成本
-//     let scanCost = 0; // 存储扫描文件的扫描成本
-
-//     for (let i = 0; i < fileIds.length; i++) {
-//         const fileId = fileIds[i];
-//         const fileSize = fileSizes[i];
-//         // 如果缓存中已经有该文件的扫描报告，则直接从缓存中取出
-//         if (catchMap[fileId]) {
-//             // 跳过该次循环
-//             continue;
+// 方法二：哈希表
+// function minimumCoins(line) {
+//      // 初始化数据
+//     const m = Number(line[0]); // 缓存一个报告金币数
+//     const files = line[1].split(' ').map(Number); // 文件标识序列
+//     const sizes = line[2].split(' ').map(Number); // 文件大小序列（扫描成本）
+    
+//     let cost = 0;
+//     let cache = new Set();
+//     let fileCount = {};
+//     for (let i = 0; i < files.length; i++) {
+//         if (fileCount[files[i]] === undefined) {
+//             fileCount[files[i]] = 0;
 //         }
-//         // 文件未缓存，比较缓存与不缓存的成本
-//         const count = fileIds.filter(id => id === fileId).length;
-//         if (count > 1) {
-//             // 比较缓存与不缓存的成本
-//             const catchCost = fileSize + m;
-//             const notCatchCost = fileSize * count;
-//             if (catchCost < notCatchCost) {
-//                 // 缓存
-//                 totalCost += m;
-//                 catchMap[fileId] = true;
+//         fileCount[files[i]]++;
+//     }
+//     for (let i = 0; i < files.length; i++) {
+//         if (!cache.has(files[i])) {
+//             cost += sizes[i];
+//             if (sizes[i] * fileCount[files[i]] > m) {
+//                 cache.add(files[i]);
+//                 cost += m;
 //             }
 //         }
-//         // 进行扫描
-//         scanCost += fileSize;
 //     }
-
-//     // 最少金币数为扫描成本加上缓存成本
-//     return totalCost + scanCost;
+//     return cost;
 // }
+
+// 方法一：哈希表
+// function minimumCoins(line) {
+//     const m = Number(line[0]); // 缓存一个报告金币数
+//     const files = line[1].split(' ').map(Number); // 文件标识序列
+//     const sizes = line[2].split(' ').map(Number); // 文件大小序列（扫描成本）
+//     const len = files.length;
+
+//     let totalCoins = 0; // 最小文件总成本
+//     let totalCoinsCatch = 0;// 最小文件总缓存成本
+
+//     const hashMap = new Map(); // 存储缓存的报告
+//     for(let i = 0;i<len; i++) {
+//         if(hashMap.get(files[i])) {
+//             continue;
+//         }
+
+//         // 获取文件个数确定是否缓存
+//         const fileNum = files.filter(item=>item === files[i]).length
+//         if(fileNum > 1) {
+//             if(sizes[i] + m < fileNum*sizes[i]) {
+//                 totalCoinsCatch += m
+//                 hashMap.set(files[i], true)
+//             }
+//         }
+//         totalCoins += sizes[i]
+//     }
+//     return totalCoinsCatch + totalCoins
+// }
+
+module.exports = minimumCoins
+
 
 
