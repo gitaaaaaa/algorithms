@@ -54,6 +54,17 @@ rl.on('line',function(line) {
         rl.close()
     }
 })
+// let m, n, files;
+// rl.on('line', function (input) {
+//     if(!m) {
+//         m = Number(input)
+//     } else if(!files) {
+//         files = input.trim().split(' ')
+//     } else if(!n) {
+//         n = input.trim().split(' ').map(Number)
+//         minimumCoins(m, n, files)
+//     }
+// })
 
 // 方法三：动态规划 + 哈希表
 function minimumCoins(line) {
